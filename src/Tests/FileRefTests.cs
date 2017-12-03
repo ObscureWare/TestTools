@@ -41,32 +41,34 @@
         }
 
         [Theory]
-        [InlineData(@"C:\tests\tts*s.s")]
-        [InlineData(@"C:\tests\tts?s.s")]
-        [InlineData(@"C:\tests\tts:s.s")]
+        //[InlineData(@"C:\tests\tts*s.s")]
+        //[InlineData(@"C:\tests\tts?s.s")]
+        //[InlineData(@"C:\tests\tts:s.s")]
         [InlineData(@"C:\tests\tts|s.s")]
+        [InlineData(@"C:\te|sts\ttss.s")]
         [InlineData(@"C:\tests\tts<s.s")]
         [InlineData(@"C:\tests\tts>s.s")] // TODO: add more cases?
-        public void invalid_characters_in_file_name_shall_be_validated_only_when_asked_on_absolute_refs(string fName)
+        public void invalid_characters_in_file_name_shall_be_validated_when_asked_on_absolute_refs(string fName)
         {
-            var fileRef = FileRef.CreateAbsolute(fName);
+            FileRef reff;
+            Should.Throw<ArgumentException>(() => reff = FileRef.CreateAbsolute(fName));
 
-            fileRef.ShouldNotBeNull();
-            fileRef.FileNameIsValid.ShouldBeFalse();
+            //fileRef.ShouldNotBeNull();
+            //fileRef.FileNameIsValid.ShouldBeFalse();
         }
 
-        [Theory(Skip = "Looks like 'Path.GetFullPath' is not validating paths.")]
-        [InlineData(@"C:\tests\tts*s.s")]
-        [InlineData(@"C:\tests\tts?s.s")]
+        [Theory]
+        [InlineData(@"C:\tests\tts>s.s")]
+        [InlineData(@"C:\tests\tts|s.s")]
         public void invalid_characters_in_file_name_shall_throw_exceptions_during_creation_of_virtual_refs(string fName)
         {
             FileRef reff;
             Should.Throw<ArgumentException>(() => reff = FileRef.CreateVirtual(fName));
         }
 
-        [Theory(Skip = "Looks like 'Path.GetFullPath' is not validating paths.")]
-        [InlineData(@"C:\tests\tts*s.s")]
-        [InlineData(@"C:\tests\tts?s.s")]
+        [Theory]
+        [InlineData(@"C:\tests\tts|s.s")]
+        [InlineData(@"C:\tests\tts<s.s")]
         public void invalid_characters_in_file_name_shall_throw_exceptions_during_creation_of_automated_refs(string fName)
         {
             FileRef reff;

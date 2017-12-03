@@ -28,6 +28,7 @@
             {
                 var fileRef = FileRef.Create(filePath);
                 streamWriter = fileRef.OpenStreamWriter();
+
                 WriteRandomData(fileSize, streamWriter);
 
                 return fileRef;
